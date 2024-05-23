@@ -43,6 +43,7 @@ words = [
     ["g", "i", "r", "a", "f", "f", "e"],
     ["h", "i", "p", "p", "o", "p", "o", "t", "a", "m", "u", "s"]
 ]
+
 easy_words = []
 normal_words = []
 hard_words = []
@@ -54,7 +55,7 @@ while game_is_running:
 
     print("Time to choose your difficulty!: ")
     while selected_difficulty is None:
-        start_choice = input("e(easy), n(normal, h(hard) or q(quit): ")
+        start_choice = input("e(easy), n(normal, h(hard), q(quit): ")
 
         selected_difficulty, match_is_running = get_difficulty(
             words,
@@ -99,5 +100,3 @@ while game_is_running:
             match_is_running = False
             selected_difficulty = None
             # sleep(2)
-
-
