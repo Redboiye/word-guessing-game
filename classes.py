@@ -36,13 +36,12 @@ class Player:
 
 class Match:
     attempts = 10
-    word_hidden_characters = []
 
     def __init__(
             self,
             selected_difficulty,
-
     ):
+        self.word_hidden_characters = []
         self.random_word = random.choice(selected_difficulty)
         self.random_word_length = len(self.random_word)
         for character in range(self.random_word_length):
@@ -107,6 +106,5 @@ class Game:
                     start_choice
                 )
 
-        match = Match(self.selected_difficulty)
-        match.start(self.match_is_running)
-
+            match = Match(self.selected_difficulty)
+            self.selected_difficulty, self.match_is_running = match.start(self.match_is_running)
