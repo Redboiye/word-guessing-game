@@ -22,35 +22,11 @@ from choose_difficulty import get_difficulty
 # ]
 
 
-words = [
-    ["c", "a", "r"],
-    ["d", "i", "g"],
-    ["b", "a", "t"],
-    ["t", "o", "g"],
-    ["c", "o", "d"],
-    ["h", "a", "t"],
-    ["m", "o", "g"],
-    ["f", "o", "g"],
-    ["b", "i", "g"],
-    ["t", "i", "g", "e", "r"],
-    ["d", "o", "l", "p", "h", "i", "n"],
-    ["s", "q", "u", "i", "r", "r", "e", "l"],
-    ["c", "h", "i", "m", "p", "a", "n", "z", "e"],
-    ["l", "i", "z", "a", "r", "d"],
-    ["r", "h", "i", "n", "o", "c", "e", "r", "o", "s"],
-    ["h", "y", "e", "n", "a"],
-    ["e", "l", "e", "p", "h", "a", "n", "t"],
-    ["g", "i", "r", "a", "f", "f", "e"],
-    ["h", "i", "p", "p", "o", "p", "o", "t", "a", "m", "u", "s"]
-]
 
-easy_words = []
-normal_words = []
-hard_words = []
-selected_difficulty = None
-game_is_running = True
-match_is_running = False
-print("Welcome to the word guessing game!")
+
+
+
+
 while game_is_running:
 
     print("Time to choose your difficulty!: ")
@@ -100,3 +76,4 @@ while game_is_running:
             match_is_running = False
             selected_difficulty = None
             # sleep(2)
+
