@@ -1,6 +1,6 @@
-from time import sleep
-
 import random
+import csv
+import os
 
 
 class WordSet:
@@ -33,10 +33,13 @@ class Match:
     def __init__(
             self,
             selected_difficulty,
+            match_number
     ):
+        self.result = None
         self.word_hidden_characters = []
         self.random_word = random.choice(selected_difficulty)
         self.random_word_length = len(self.random_word)
+        self.match_number = match_number
         for character in range(self.random_word_length):
             self.word_hidden_characters.append('_')
 
@@ -48,6 +51,25 @@ class Match:
         word_hidden_characters[player_guess_index] = player_guess
 
         return word_hidden_characters
+
+    def save_result(
+            self,
+            result,
+
+    ):
+
+        with open("record.csv", "a", newline='') as f:
+            writer = csv.writer(f)
+            word = "".join(self.random_word)
+            records = [self.match_number, word, result]
+            writer.writerow(records)
+
+    @staticmethod
+    def display_statistics():
+        with open("record.csv", mode='r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                print(row)
 
     def start(self, match_is_running):
         print("Time to guess the word, Good luck!")
@@ -70,13 +92,13 @@ class Match:
             if self.attempts == 0:
                 match_is_running = False
                 selected_difficulty = None
-
+                self.save_result("False")
                 print("Sorry no more attempts")
                 print("The word was", self.random_word)
-                sleep(2)
                 return selected_difficulty, match_is_running
             if self.random_word == self.word_hidden_characters:
                 print("You won")
+                self.save_result("True")
                 match_is_running = False
                 selected_difficulty = None
                 # sleep(2)
@@ -91,6 +113,15 @@ class Game:
     selected_difficulty = None
     game_is_running = True
     match_is_running = False
+    match_number = 1
+
+    def __init__(self):
+        file_name = "record.csv"
+        if not os.path.exists(file_name):
+            with open("record.csv", "w", newline='\n') as f:
+                writer = csv.writer(f)
+                headers = ["match_number", "word", "win"]
+                writer.writerow(headers)
 
     @staticmethod
     def __get_difficulty(words, easy_words, normal_words, hard_words, start_choice):
@@ -139,7 +170,11 @@ class Game:
         while self.game_is_running:
             print("Time to choose your difficulty!: ")
             while self.selected_difficulty is None:
-                start_choice = input("e(easy), n(normal, h(hard), q(quit): ")
+                start_choice = input("e(easy), n(normal, h(hard), q(quit), r(records): ")
+
+                if start_choice == 'r':
+                    Match.display_statistics()
+                    continue
 
                 self.selected_difficulty, self.match_is_running = self.__get_difficulty(
                     WordSet.WORDS,
@@ -149,5 +184,6 @@ class Game:
                     start_choice
                 )
 
-            match = Match(self.selected_difficulty)
+            match = Match(self.selected_difficulty, self.match_number)
             self.selected_difficulty, self.match_is_running = match.start(self.match_is_running)
+            self.match_number += 1
