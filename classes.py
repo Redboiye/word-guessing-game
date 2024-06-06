@@ -113,7 +113,7 @@ class Game:
     selected_difficulty = None
     game_is_running = True
     match_is_running = False
-    match_number = 1
+    last_match_number = None
 
     def __init__(self):
         file_name = "record.csv"
@@ -122,6 +122,14 @@ class Game:
                 writer = csv.writer(f)
                 headers = ["match_number", "word", "win"]
                 writer.writerow(headers)
+        else:
+            with open("record.csv", "r") as f:
+                reader = csv.reader(f)
+                for row in reader:
+                    last_row = row
+                    print(last_row[0])
+
+            self.last_match_number = int(last_row[0])
 
     @staticmethod
     def __get_difficulty(words, easy_words, normal_words, hard_words, start_choice):
@@ -183,9 +191,7 @@ class Game:
                     self.hard_words,
                     start_choice
                 )
-
-            match = Match(self.selected_difficulty, self.match_number)
+            self.last_match_number += 1
+            match = Match(self.selected_difficulty, self.last_match_number)
             self.selected_difficulty, self.match_is_running = match.start(self.match_is_running)
-            self.match_number += 1
-
-#hello
+            print(self.last_match_number)
